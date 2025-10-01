@@ -1,0 +1,2 @@
+# Keep models directory but ignore the actual model files
+*.zip

@@ -1,0 +1,52 @@
+# Training configuration for robot dog
+
+# Environment settings
+environment:
+  max_episode_steps: 1000
+  timestep: 0.00417  # 1/240
+  render_during_training: false
+
+# PPO hyperparameters
+ppo:
+  learning_rate: 0.0003
+  n_steps: 2048
+  batch_size: 64
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  clip_range_vf: null
+  ent_coef: 0.0
+  vf_coef: 0.5
+  max_grad_norm: 0.5
+  target_kl: null
+
+# Training settings
+training:
+  total_timesteps: 1000000
+  eval_freq: 10000
+  save_freq: 50000
+  log_interval: 10
+  n_eval_episodes: 10
+
+# Paths
+paths:
+  models_dir: "./models"
+  logs_dir: "./logs"
+  tensorboard_log: "./logs/tensorboard"
+
+# Robot parameters
+robot:
+  base_mass: 5.0
+  joint_limits:
+    hip: [-0.8, 0.8]
+    thigh: [-1.5, 1.5]
+    calf: [-2.5, -0.5]
+
+# Reward shaping
+rewards:
+  forward_velocity_weight: 1.0
+  height_penalty_threshold: 0.2
+  height_penalty_weight: 10.0
+  orientation_penalty_weight: 0.1
+  energy_penalty_weight: 0.001
