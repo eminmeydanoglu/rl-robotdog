@@ -1,0 +1,16 @@
+Training Configuration
+==================================================
+algorithm: PPO
+timesteps: 2000
+seed: 42
+opponent: stationary
+reward_shaping: False
+max_steps: 1000
+save_dir: models
+save_freq: 1000
+run_name: None
+eval_freq: 1000
+n_eval_episodes: 10
+learning_rate: 0.0003
+batch_size: 64
+verbose: 1

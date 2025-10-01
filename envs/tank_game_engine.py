@@ -104,12 +104,16 @@ class Tank:
         self.y = max(self.height // 2, min(screen_height - self.height // 2, self.y))
         
         # Mermileri güncelle
+        missed_bullets = 0
         for bullet in self.bullets[:]:
             bullet.update()
-            # Ekran dışına çıkan mermileri kaldır
+            # Ekran dışına çıkan mermileri kaldır (miss)
             if (bullet.x < 0 or bullet.x > screen_width or 
                 bullet.y < 0 or bullet.y > screen_height):
                 self.bullets.remove(bullet)
+                missed_bullets += 1
+        
+        return missed_bullets
                 
     def get_rect(self) -> pygame.Rect:
         """Çarpışma kontrolü için rect döndür"""
@@ -220,12 +224,16 @@ class TankGameEngine:
         # Tank2 aksiyonunu uygula
         self._apply_action(self.tank2, action_tank2)
         
-        # Tankları güncelle
-        self.tank1.update(self.width, self.height)
-        self.tank2.update(self.width, self.height)
+        # Tankları güncelle ve miss sayısını al
+        missed_tank1 = self.tank1.update(self.width, self.height)
+        missed_tank2 = self.tank2.update(self.width, self.height)
         
         # Çarpışmaları kontrol et
         reward_tank1, reward_tank2 = self._check_collisions()
+        
+        # Miss penalty ekle
+        reward_tank1 -= missed_tank1 * 2  # Her miss için -2 puan
+        reward_tank2 -= missed_tank2 * 2
         
         # Oyun bitişini kontrol et
         done = False
@@ -250,7 +258,9 @@ class TankGameEngine:
             'steps': self.steps,
             'winner': self.winner,
             'tank1_health': self.tank1.health,
-            'tank2_health': self.tank2.health
+            'tank2_health': self.tank2.health,
+            'tank1_missed': missed_tank1,
+            'tank2_missed': missed_tank2
         }
         
         return self.get_state(), reward_tank1, reward_tank2, done, info

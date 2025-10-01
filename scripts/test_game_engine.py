@@ -92,7 +92,12 @@ def main():
         # Oyun bitti mi?
         if done:
             print(f"\nOyun Bitti!")
-            print(f"Kazanan: Tank {info['winner']}" if info['winner'] > 0 else "Berabere")
+            if info['winner'] == 1:
+                print("Kazanan: Tank 1 (Mavi)")
+            elif info['winner'] == 2:
+                print("Kazanan: Tank 2 (Kırmızı)")
+            else:
+                print("Berabere")
             print(f"Toplam adım: {info['steps']}")
             print(f"Tank 1 Can: {info['tank1_health']}")
             print(f"Tank 2 Can: {info['tank2_health']}")

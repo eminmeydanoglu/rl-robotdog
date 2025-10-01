@@ -1,102 +1,112 @@
-# Robot Dog RL Setup Instructions
+# RL Tank Game - Kurulum Talimatları
 
-## ⚠️ PyBullet Installation Issue
+Bu döküman, projeyi sıfırdan kurmak için gereken tüm adımları içermektedir.
 
-PyBullet requires **Microsoft Visual C++ 14.0 or greater** to compile on Windows with Python 3.10+.
+## Ön Gereksinimler
 
-## ✅ Solution Options
+- Python 3.8 veya üzeri
+- pip (Python paket yöneticisi)
+- Git (opsiyonel, ancak önerilir)
 
-### Option 1: Install C++ Build Tools (Recommended for long-term)
+## Adım 1: Projeyi İndirin
 
-1. **Download and Install:**
-   - Go to: https://visualstudio.microsoft.com/visual-cpp-build-tools/
-   - Download "Build Tools for Visual Studio"
-   - Run installer and select "Desktop development with C++"
-   - Wait for installation (about 6-8 GB)
-
-2. **After installation, activate conda environment and install:**
-   ```powershell
-   conda activate robotdog
-   pip install pybullet
-   ```
-
-### Option 2: Use Pre-compiled Conda Package (Easiest)
-
-Try installing PyBullet from conda-forge:
-```powershell
-conda activate robotdog
-conda install -c conda-forge pybullet
+```bash
+git clone <repository-url>
+cd faruk-dog
 ```
 
-### Option 3: Download Pre-built Wheel (Alternative)
+## Adım 2: Sanal Ortam Oluşturun
 
-Visit: https://github.com/bulletphysics/bullet3/releases
-Download the appropriate `.whl` file for your Python version and install:
-```powershell
-conda activate robotdog
-pip install path\to\downloaded\pybullet-X.X.X-cpXXX-cpXXX-win_amd64.whl
+### Linux/Mac:
+```bash
+python3 -m venv venv
+source venv/bin/activate
 ```
 
-## 📦 What's Already Installed in `robotdog` Environment
+## Adım 3: Kütüphaneleri Yükleyin
 
-The following packages should be installed (except PyBullet):
-- ✅ gymnasium
-- ✅ stable-baselines3
-- ✅ torch (PyTorch)
-- ✅ numpy
-- ✅ tensorboard
-- ✅ matplotlib
-- ✅ tqdm
-- ✅ pyyaml
-- ✅ pandas
-- ✅ imageio & imageio-ffmpeg
-- ❌ pybullet (needs C++ compiler OR conda-forge)
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
 
-## 🚀 Quick Start (After PyBullet is installed)
+## Adım 4: Kurulumu Test Edin
 
-1. **Activate environment:**
-   ```powershell
-   conda activate robotdog
-   ```
+### Oyun Motorunu Test Edin (Manuel Oyun)
 
-2. **Test the environment:**
-   ```powershell
-   python -c "from envs.robot_dog_env import RobotDogEnv; print('Success!')"
-   ```
+```bash
+python scripts/test_game_engine.py
+```
 
-3. **Start training:**
-   ```powershell
-   python scripts/train.py
-   ```
+**Kontroller:**
+- Tank 1 (Mavi): W (ileri), A (sola), D (sağa), Space (ateş)
+- Tank 2 (Kırmızı): Yukarı ok (ileri), Sol ok (sola), Sağ ok (sağa), Enter (ateş)
+- ESC: Çıkış
 
-4. **Monitor with TensorBoard:**
-   ```powershell
-   tensorboard --logdir logs
-   ```
+Oyun penceresi açılmalı ve her iki tankı da kontrol edebilmelisiniz.
 
-## 💡 Recommended: Try Option 2 First (Conda-Forge)
-
-It's the quickest solution and doesn't require C++ Build Tools installation.
-
-## 📁 Project Structure
+## Proje Yapısı
 
 ```
 faruk-dog/
-├── envs/              # Custom Gymnasium environments
-├── models/            # Trained model checkpoints
-├── configs/           # Configuration files
-├── scripts/           # Training and evaluation scripts
-│   ├── train.py       # PPO training script
-│   └── evaluate.py    # Model evaluation script
-├── utils/             # Helper functions
-├── notebooks/         # Jupyter notebooks
-└── requirements.txt   # All dependencies
+├── configs/              # Yapılandırma dosyaları
+│   └── train_config.yaml
+├── envs/                # Gymnasium ortamları
+│   ├── __init__.py
+│   ├── tank_game_engine.py   # Oyun motoru (YENİ!)
+│   └── robot_dog_env.py      # Eski ortam (kaldırılacak)
+├── models/              # Eğitilmiş modeller buraya kaydedilir
+├── notebooks/           # Jupyter notebook'lar (analiz için)
+├── scripts/             # Eğitim ve test scriptleri
+│   ├── train.py
+│   ├── evaluate.py
+│   └── test_game_engine.py   # Test scripti (YENİ!)
+├── utils/               # Yardımcı fonksiyonlar
+│   ├── __init__.py
+│   └── helpers.py
+├── requirements.txt     # Python bağımlılıkları
+├── README.md
+└── SETUP_INSTRUCTIONS.md
 ```
 
-## ⚙️ Environment Details
+## Sık Karşılaşılan Sorunlar
 
-- **Name:** robotdog
-- **Python:** 3.10.18
-- **Location:** C:\Users\eminm\miniconda3\envs\robotdog
+### Pygame Kurulamıyor
+
+Windows'ta pygame kurulum hatası alırsanız:
+```bash
+pip install pygame --pre
+```
+
+### Sanal Ortam Aktifleştirilemiyor (Windows)
+
+PowerShell execution policy hatası:
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+### ImportError: No module named 'envs'
+
+Script'leri proje kök dizininden çalıştırdığınızdan emin olun:
+```bash
+cd c:\Users\eminm\faruk-dog
+python scripts/test_game_engine.py
+```
+
+## Sonraki Adımlar
+
+Kurulum başarılı olduysa, şimdi şunları yapabilirsiniz:
+
+1. ✅ Bölüm 1: Tamamlandı - Ortam kuruldu ve oyun motoru hazır
+2. 🔄 Bölüm 2: Gymnasium wrapper'ı oluşturma (devam edecek)
+3. ⏭️ Bölüm 3: Tek ajanlı eğitim
+4. ⏭️ Bölüm 4: Multi-agent eğitim ve karşılaştırmalar
+
+## Yardım
+
+Sorun yaşarsanız:
+1. Python versiyonunuzu kontrol edin: `python --version`
+2. Sanal ortamın aktif olduğundan emin olun
+3. Bağımlılıkları yeniden yükleyin: `pip install -r requirements.txt --force-reinstall`
 - **Activate:** `conda activate robotdog`
 - **Deactivate:** `conda deactivate`
