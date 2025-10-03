@@ -1,20 +1,30 @@
 """
-Tank Game Engine Test Script
+Tank Game Engine Test Script - Manual Control Test
 
-Oyun motorunun doğru çalıştığını test eder.
-İki tankı manuel kontrol edebilirsiniz:
+Tests that the game engine works correctly with human input.
+This is a 2-player local multiplayer test where you can control both tanks manually.
 
-Tank 1 (Mavi):
-- W: İleri
-- A: Sola dön
-- D: Sağa dön
-- Space: Ateş et
+Controls:
+Tank 1 (Blue):
+- W: Move forward
+- A: Turn left
+- D: Turn right
+- Space: Fire bullet
 
-Tank 2 (Kırmızı):
-- Yukarı Ok: İleri
-- Sol Ok: Sola dön
-- Sağ Ok: Sağa dön
-- Enter: Ateş et
+Tank 2 (Red):
+- Up Arrow: Move forward
+- Left Arrow: Turn left
+- Right Arrow: Turn right
+- Enter: Fire bullet
+
+General:
+- ESC: Exit game
+
+This script is useful for:
+- Verifying game mechanics work correctly
+- Testing collision detection visually
+- Demonstrating the game to others
+- Debugging rendering issues
 """
 
 import sys
@@ -26,33 +36,39 @@ from envs.tank_game_engine import TankGameEngine
 
 
 def main():
-    """Manuel test için ana fonksiyon"""
+    """
+    Main function for manual testing of the game engine
+    
+    Creates a game instance with rendering enabled and enters the main game loop.
+    Processes keyboard input for both tanks and displays the game visually.
+    """
     game = TankGameEngine(width=800, height=600, render=True)
     game.reset(random_positions=False)
     
     print("Tank Game Engine Test")
     print("=" * 50)
-    print("\nKontroller:")
-    print("\nTank 1 (Mavi):")
-    print("  W: İleri")
-    print("  A: Sola dön")
-    print("  D: Sağa dön")
-    print("  Space: Ateş et")
-    print("\nTank 2 (Kırmızı):")
-    print("  Yukarı Ok: İleri")
-    print("  Sol Ok: Sola dön")
-    print("  Sağ Ok: Sağa dön")
-    print("  Enter: Ateş et")
-    print("\nESC: Çıkış")
+    print("\nControls:")
+    print("\nTank 1 (Blue):")
+    print("  W: Move forward")
+    print("  A: Turn left")
+    print("  D: Turn right")
+    print("  Space: Fire")
+    print("\nTank 2 (Red):")
+    print("  Up Arrow: Move forward")
+    print("  Left Arrow: Turn left")
+    print("  Right Arrow: Turn right")
+    print("  Enter: Fire")
+    print("\nESC: Exit")
     print("=" * 50)
     
     running = True
     
     while running:
-        # Event handling
-        action_tank1 = 4  # Dur
-        action_tank2 = 4  # Dur
+        # Initialize actions to idle (do nothing) each frame
+        action_tank1 = 4  # Idle
+        action_tank2 = 4  # Idle
         
+        # Handle pygame events (window close, ESC key)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 running = False
@@ -60,56 +76,56 @@ def main():
                 if event.key == pygame.K_ESCAPE:
                     running = False
         
-        # Klavye durumunu al
+        # Get current keyboard state for continuous input
         keys = pygame.key.get_pressed()
         
-        # Tank 1 kontrolleri
+        # Tank 1 controls (WASD + Space)
         if keys[pygame.K_w]:
-            action_tank1 = 0  # İleri
+            action_tank1 = 0  # Forward
         elif keys[pygame.K_a]:
-            action_tank1 = 1  # Sola
+            action_tank1 = 1  # Turn left
         elif keys[pygame.K_d]:
-            action_tank1 = 2  # Sağa
+            action_tank1 = 2  # Turn right
         elif keys[pygame.K_SPACE]:
-            action_tank1 = 3  # Ateş
+            action_tank1 = 3  # Fire
             
-        # Tank 2 kontrolleri
+        # Tank 2 controls (Arrow keys + Enter)
         if keys[pygame.K_UP]:
-            action_tank2 = 0  # İleri
+            action_tank2 = 0  # Forward
         elif keys[pygame.K_LEFT]:
-            action_tank2 = 1  # Sola
+            action_tank2 = 1  # Turn left
         elif keys[pygame.K_RIGHT]:
-            action_tank2 = 2  # Sağa
+            action_tank2 = 2  # Turn right
         elif keys[pygame.K_RETURN]:
-            action_tank2 = 3  # Ateş
+            action_tank2 = 3  # Fire
         
-        # Oyunu güncelle
+        # Update game state with both player actions
         state, reward1, reward2, done, info = game.step(action_tank1, action_tank2)
         
-        # Render
+        # Render the current frame
         game.render()
         
-        # Oyun bitti mi?
+        # Check if episode ended and display results
         if done:
-            print(f"\nOyun Bitti!")
+            print(f"\nGame Over!")
             if info['winner'] == 1:
-                print("Kazanan: Tank 1 (Mavi)")
+                print("Winner: Tank 1 (Blue)")
             elif info['winner'] == 2:
-                print("Kazanan: Tank 2 (Kırmızı)")
+                print("Winner: Tank 2 (Red)")
             else:
-                print("Berabere")
-            print(f"Toplam adım: {info['steps']}")
-            print(f"Tank 1 Can: {info['tank1_health']}")
-            print(f"Tank 2 Can: {info['tank2_health']}")
+                print("Draw")
+            print(f"Total steps: {info['steps']}")
+            print(f"Tank 1 Health: {info['tank1_health']}")
+            print(f"Tank 2 Health: {info['tank2_health']}")
             
-            # 3 saniye bekle
+            # Wait 3 seconds before starting new game
             pygame.time.wait(3000)
             
-            # Yeni oyun
+            # Start new game
             game.reset(random_positions=False)
     
     game.close()
-    print("\nTest tamamlandı!")
+    print("\nTest completed!")
 
 
 if __name__ == "__main__":

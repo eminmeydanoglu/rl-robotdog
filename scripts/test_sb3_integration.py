@@ -1,7 +1,20 @@
 """
 Stable-Baselines3 Integration Test
 
-TankEnv'in Stable-Baselines3 ile uyumluluğunu test eder.
+Tests compatibility of TankEnv with Stable-Baselines3 (SB3) RL library.
+Verifies that the environment can be used with standard RL algorithms
+like PPO and DQN without issues.
+
+Tests performed:
+1. SB3's environment checker (validates Gymnasium interface)
+2. PPO model creation
+3. DQN model creation
+4. Short PPO training run
+5. Short DQN training run
+6. Model evaluation
+
+These tests ensure the environment is properly implemented and
+compatible with the entire SB3 ecosystem.
 """
 
 import sys

@@ -1,3 +1,4 @@
+#TODO Burayı ingilizceye çevir
 # RL Tank Game - Kurulum Talimatları
 
 Bu döküman, projeyi sıfırdan kurmak için gereken tüm adımları içermektedir.

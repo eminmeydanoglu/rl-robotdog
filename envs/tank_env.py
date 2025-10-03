@@ -1,8 +1,17 @@
 """
 Tank Environment - Gymnasium Wrapper
 
-Bu modül, TankGameEngine'i Gymnasium interface'i ile sarmalayarak
-Stable-Baselines3 gibi RL kütüphaneleri ile uyumlu hale getirir.
+This module wraps the TankGameEngine with the Gymnasium (formerly OpenAI Gym) interface,
+making it compatible with RL libraries like Stable-Baselines3, RLlib, and others.
+
+The wrapper provides:
+- Standard Gymnasium API (reset, step, render, close)
+- Configurable opponent policies (stationary, simple, random)
+- Optional reward shaping for easier learning
+- Observation normalization for neural networks
+- Episode statistics and tracking
+
+This allows any Gymnasium-compatible RL algorithm to train agents for the tank battle game.
 """
 
 import gymnasium as gym

@@ -1,8 +1,20 @@
 """
 Model Evaluation Script for Tank Battle
 
-Eğitilmiş modelleri test eder ve performans metriklerini rapor eder.
-Bölüm 3: Değerlendirme Pipeline
+Tests trained models and reports comprehensive performance metrics.
+Part of Chapter 3: Evaluation Pipeline
+
+Features:
+- Detailed evaluation statistics (win rate, mean reward, episode length)
+- Shooting accuracy tracking (hit rate, missed shots)
+- Deterministic and stochastic policy evaluation
+- Optional rendering to visualize agent behavior
+- Performance grading and assessment
+- Save results to file for analysis
+- Progress reporting during evaluation
+
+This script helps assess how well the trained agent performs against
+different opponent policies and provides insights for improvement.
 """
 
 import sys

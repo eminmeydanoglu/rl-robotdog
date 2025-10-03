@@ -5,7 +5,7 @@ This module provides a custom Gymnasium environment for training a quadruped rob
 """
 
 import gymnasium as gym
-from gymnasium import spaces
+from gymnasium import spaces # observation spaces
 import numpy as np
 import pybullet as p
 import pybullet_data
@@ -30,7 +30,7 @@ class RobotDogEnv(gym.Env):
         if self.render_mode == "human":
             self.physics_client = p.connect(p.GUI)
         else:
-            self.physics_client = p.connect(p.DIRECT)
+            self.physics_client = p.connect(p.DIRECT) # headless
             
         # Set up the simulation
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
@@ -41,8 +41,8 @@ class RobotDogEnv(gym.Env):
         # Values normalized between -1 and 1
         self.action_space = spaces.Box(
             low=-1.0, 
-            high=1.0, 
-            shape=(12,), 
+            high=1.0,  # normalized -1 to 1
+            shape=(12,),  # 12 continuous values
             dtype=np.float32
         )
         

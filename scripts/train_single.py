@@ -1,8 +1,20 @@
 """
 Single Agent Training Script
 
-Bu script tek bir RL ajanını sabit bir rakibe karşı eğitir.
-Bölüm 3: Tek Ajanlı Eğitim Pipeline
+This script trains a single RL agent against a fixed opponent policy.
+Part of Chapter 3: Single-Agent Training Pipeline
+
+Features:
+- Supports multiple RL algorithms (PPO, DQN)
+- Configurable training parameters via command-line arguments
+- TensorBoard logging for real-time training monitoring
+- Automatic checkpointing and best model saving
+- Evaluation during training to track progress
+- Seed support for reproducible experiments
+- Progress bars and detailed logging
+
+The trained agent learns to play the tank battle game against stationary,
+simple, or random opponents, with optional reward shaping for easier learning.
 """
 
 import sys

@@ -1,7 +1,20 @@
 """
 Tank Environment Test Script
 
-Gymnasium wrapper'ının doğru çalıştığını test eder.
+Tests that the Gymnasium wrapper works correctly and implements
+all required functionality for RL training.
+
+Comprehensive tests include:
+- Environment creation with different configurations
+- Reset functionality with seeds and options
+- Step execution with all action types
+- Opponent policy variations
+- Reward shaping mechanisms
+- Episode completion and truncation
+- Observation normalization
+
+This ensures the TankEnv is ready for use with any Gymnasium-compatible
+RL framework or algorithm.
 """
 
 import sys
